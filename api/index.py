@@ -6,7 +6,7 @@ from flask import Flask, jsonify, request
 import json
 
 ## function imports
-from core.student import get_performance_prediction
+from core.student import get_performance_prediction, get_performance_prediction_with_id
 
 app = Flask(__name__)
 
@@ -22,6 +22,13 @@ def index():
 def handle_predition():
     data = request.get_json()
     return get_performance_prediction(data)
+
+    
+## route handler for student performance prediction with id
+@app.post(os.path.join(home_route, "student/predict_with_id"))
+def handle_predition_with_id():
+    data = request.get_json()
+    return get_performance_prediction_with_id(data)
 
 if __name__ == "__main__":
     app.run(debug=True)

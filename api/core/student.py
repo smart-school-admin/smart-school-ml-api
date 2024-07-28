@@ -62,3 +62,23 @@ def local_interpretation(data):
     )
     
     return instance_explainer.as_list()
+
+
+## function to get the performance prediction and return results with Id
+def get_performance_prediction_with_id(data):
+    df = pd.DataFrame(data)
+    ids = df["id"].values
+    processed = preprocessor.transform(df)
+    predictions = estimator.predict(processed).flatten().tolist()
+    
+    preds_pair = zip(ids, predictions)
+    
+    result = dict()
+    
+    for id, pred in preds_pair:
+        if id not in result:
+            result[id] = [pred]
+        else:
+            result[id].append(pred)
+            
+    return result
